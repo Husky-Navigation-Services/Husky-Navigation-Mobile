@@ -2,7 +2,7 @@
 
 [In Progress]
 
-Mobile version of Husky Navigation implemented with [React Native](reactnative.dev) cross-platform framework for Android and iOS.
+Mobile version of Husky Navigation implemented with [React Native](https://reactnative.dev/) cross-platform framework for Android and iOS.
 
 Access development version [here](https://expo.dev/@aferman/husky-navigation-mobile-test-1) with [Expo client](https://expo.dev/client) app.
 
