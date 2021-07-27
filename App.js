@@ -1,13 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Image } from 'react-native';
 
 export default function App() {
+  console.log("App Executed");
+
+  const handlePress = () => console.log("Pressed!");
+  
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <SafeAreaView style={styles.container}>
+      <Image style={styles.tinyLogo} source={require('./assets/HuskyNavLogoTransparent.png')}/>
+      <Text style={styles.baseText} onPress={handlePress} >Husky Navigation</Text>
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -18,4 +23,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  tinyLogo: {
+    marginBottom: 10,
+    width: 120,
+    height: 120,
+  },baseText: {
+    fontFamily: "Cochin",
+    fontWeight: "bold",
+    fontSize: 20
+  }
 });
