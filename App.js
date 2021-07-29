@@ -1,24 +1,45 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Image, TouchableWithoutFeedback, TouchableOpacity, TouchableHighlight, Button, Alert, Platform, Dimensions } from 'react-native';
 import {useDeviceOrientation} from '@react-native-community/hooks';
-import SplashScreen from './SplashScreen.js';
+import SplashScreen from './Components/SplashScreen.js';
+import HomeScreen from './Components/HomeScreen.js';
 
 export default function App() {
   // subscribe to changes in device orientation
   //  - rerenders component when device orientation changes
-  //  - returns device orientation value {"landscape":true/false, "portrait": true/false}
-
+  //  - represents device orientation value {"landscape":true/false, "portrait": true/false}
   var orientation = useDeviceOrientation();
- 
+  
+  // create inSplash state and subscribe to inSplash state changes
+  //  - rerenders component when inSplash orientation changes
+  //  - inSplash represents whether the app is in the splash screen
+  //  - MUST use setSplash to change value of inSplash
+  var [inSplash, setSplash] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setSplash(false)
+    }, 1000);
+
+    return function cleanup() {
+      clearTimeout(timeout);
+    }
+  });
   
   return (
-    <SplashScreen/>
+    inSplash ? 
+      <SplashScreen/> 
+      :
+      <SafeAreaView style={styles.safeContainer}>
+        <HomeScreen />
+      </SafeAreaView>
+
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeContainer: {
     flex: 1,
     backgroundColor: '#fff',
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
