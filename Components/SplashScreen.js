@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {StyleSheet, Text, View, Image, ActivityIndicator} from 'react-native';
 
 
 export default function SplashScreen() {
@@ -9,7 +9,7 @@ export default function SplashScreen() {
         <View style={styles.logoContainer}>
             <Image 
                 style={styles.tinyLogo} 
-                source={require('./assets/HuskyNavLogoTransparent.png')}
+                source={require('../assets/HuskyNavLogoTransparent.png')}
             />
             <Text style={styles.title}>Husky Navigation</Text>
         </View>
@@ -41,14 +41,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   tinyLogo: {
-      width: 100,
-      height: 100,
-      margin: 40
+    width: 100,
+    height: 100,
+    margin: 40
   },
   activityIndicator: {
-      position: 'absolute',
-      bottom: 200
-      
+    position: 'absolute',
+    bottom: 200 
   }
 });
 

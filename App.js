@@ -17,11 +17,15 @@ export default function App() {
   //  - MUST use setSplash to change value of inSplash
   var [inSplash, setSplash] = useState(true);
 
+  // set timeout when component mounts
+  //  - useEffect runs the given callback when component mounts, when it re-renders,
+  //    and runs cleanup() when component dismounts
   useEffect(() => {
     const timeout = setTimeout(() => {
       setSplash(false)
     }, 1000);
 
+    // cleanup() runs when component dismounts
     return function cleanup() {
       clearTimeout(timeout);
     }
