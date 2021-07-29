@@ -1,18 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Image } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Image, TouchableWithoutFeedback, TouchableOpacity, TouchableHighlight, Button, Alert, Platform, Dimensions } from 'react-native';
+import {useDeviceOrientation} from '@react-native-community/hooks';
+import SplashScreen from './SplashScreen.js';
 
 export default function App() {
-  console.log("App Executed");
+  // subscribe to changes in device orientation
+  //  - rerenders component when device orientation changes
+  //  - returns device orientation value {"landscape":true/false, "portrait": true/false}
 
-  const handlePress = () => console.log("Pressed!");
+  var orientation = useDeviceOrientation();
+ 
   
   return (
-    <SafeAreaView style={styles.container}>
-      <Image style={styles.tinyLogo} source={require('./assets/HuskyNavLogoTransparent.png')}/>
-      <Text style={styles.baseText} onPress={handlePress} >Husky Navigation</Text>
-      <StatusBar style="auto" />
-    </SafeAreaView>
+    <SplashScreen/>
   );
 }
 
@@ -20,16 +21,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tinyLogo: {
-    marginBottom: 10,
-    width: 120,
-    height: 120,
-  },baseText: {
-    fontFamily: "Cochin",
-    fontWeight: "bold",
-    fontSize: 20
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
   }
 });
+
+
+/* 
+
+<SafeAreaView style={styles.container}>
+      <SplashScreen/>
+      
+    </SafeAreaView>
+
+*/
+
+/*
+<Image 
+          style={styles.tinyLogo} 
+          source={require('./assets/HuskyNavLogoTransparent.png')}
+        />
+*/
