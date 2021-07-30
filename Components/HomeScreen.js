@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import Navbar from './Navbar.js'
 
-
-export default function SplashScreen() {
+export default function HomeScreen() {
   return (
     <View style={styles.container}>
         <Text>Home Screen </Text>
+        <Navbar activePage="nav"/>
     </View>
   );
 }
@@ -14,8 +15,6 @@ export default function SplashScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%',
-    backgroundColor: '#fff',
-    alignItems: 'center'
+    backgroundColor: '#fff'
   }
 });

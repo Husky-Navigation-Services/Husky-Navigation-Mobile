@@ -35,9 +35,9 @@ export default function App() {
     inSplash ? 
       <SplashScreen/> 
       :
-      <SafeAreaView style={styles.safeContainer}>
+      <View style={styles.safeContainer}>
         <HomeScreen />
-      </SafeAreaView>
+      </View>
 
   );
 }
@@ -49,20 +49,3 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
   }
 });
-
-
-/* 
-
-<SafeAreaView style={styles.container}>
-      <SplashScreen/>
-      
-    </SafeAreaView>
-
-*/
-
-/*
-<Image 
-          style={styles.tinyLogo} 
-          source={require('./assets/HuskyNavLogoTransparent.png')}
-        />
-*/
