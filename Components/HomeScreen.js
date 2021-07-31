@@ -1,13 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, {useState} from 'react';
+import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator} from 'react-native';
 import Navbar from './Navbar.js'
 
 export default function HomeScreen() {
+  var [activePage, setActivePage] = useState("nav");
+
   return (
     <View style={styles.container}>
         <Text>Home Screen </Text>
-        <Navbar activePage="nav"/>
+        <Navbar activePage={activePage} setActivePage={setActivePage}/>
     </View>
   );
 }

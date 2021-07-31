@@ -7,11 +7,11 @@ export default function Navbar(props) {
 
   return (
     <View style={styles.container}>
-        <Icon icon="settings" isActive={props.activePage == "settings"}/>
-        <Icon icon="feedback"  isActive={props.activePage == "feedback"}/>
-        <Icon icon="nav"  isActive={props.activePage == "nav"}/>
-        <Icon icon="directory"  isActive={props.activePage == "directory"}/>
-        <Icon icon="info"  isActive={props.activePage == "info"}/>
+        <Icon icon="settings" isActive={props.activePage == "settings"} setActivePage={props.setActivePage}/>
+        <Icon icon="feedback"  isActive={props.activePage == "feedback"} setActivePage={props.setActivePage}/>
+        <Icon icon="nav"  isActive={props.activePage == "nav"} setActivePage={props.setActivePage}/>
+        <Icon icon="directory"  isActive={props.activePage == "directory"} setActivePage={props.setActivePage}/>
+        <Icon icon="info"  isActive={props.activePage == "info"} setActivePage={props.setActivePage}/>
     </View>
   );
 }

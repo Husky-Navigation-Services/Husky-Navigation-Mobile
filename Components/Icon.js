@@ -21,7 +21,7 @@ export default function Icon(props) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => props.setActivePage(props.icon)}>
           <Image 
               style={isActive ? styles.active : styles.inactive} 
               source={images[props.icon]} 
