@@ -4,8 +4,13 @@ import { SafeAreaView, StyleSheet, Text, View, Image, TouchableWithoutFeedback, 
 import {useDeviceOrientation} from '@react-native-community/hooks';
 import SplashScreen from './Components/SplashScreen.js';
 import HomeScreen from './Components/HomeScreen.js';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 export default function App() {
+  console.log("App Executed");
+  console.log("Platform: ", Platform.OS);
+  console.log("Status Bar Height: ", getStatusBarHeight(true));
+
   // subscribe to changes in device orientation
   //  - rerenders component when device orientation changes
   //  - represents device orientation value {"landscape":true/false, "portrait": true/false}
@@ -46,6 +51,6 @@ const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+    paddingTop: getStatusBarHeight(true)
   }
 });
