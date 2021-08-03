@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "Husky-Navigation-Mobile-Test-1",
-    "slug": "husky-navigation-mobile-test-1",
+    "name": "Husky-Navigation-Mobile",
+    "description": "Navigation tool for UW Seattle campus.",
+    "slug": "husky-navigation-mobile",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
@@ -27,7 +28,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "description": ""
+    }
   }
 }

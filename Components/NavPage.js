@@ -6,6 +6,50 @@ import MapView from 'react-native-maps';
 export default function NavPage(props) {
   var [startingPoint, setStartingPoint] = useState("Starting Point") ;
   var [destination, setDestination] = useState("Destination") ;
+  var calculated = new Map();
+
+  // returns autocompleted location of given text
+  function autocomplete(input) {
+    const locations = Object.keys(props.locationMap);
+    let nearest = locations[0];
+    let nearestDistance = 100;
+    locations.forEach(loc => {
+      let curDistance = lDistance(normalize(loc), normalize(input));
+      if (curDistance < nearestDistance) {
+        nearest = loc;
+        nearestDistance = curDistance;
+      }
+    });
+    return nearest;
+  }
+
+  // Levenshtein distance between two strings
+  function lDistance(a, b) {
+    let res;
+    if (calculated.has(a + "," + b)) {res = calculated.get(a + "," + b);}
+    else if (calculated.has(b + "," + a)) {res = calculated.get(b + "," + a);}
+    else if (b.length == 0) { res = a.length }
+    else if (a.length == 0) { res = b.length }
+    else if (a[0] == b[0]) {res = lDistance(a.substring(1), b.substring(1))}
+    else {
+      res = 1 + Math.min(
+        3 + lDistance(a.substring(1), b.substring(1)), // replace
+        lDistance(a, b.substring(1)), // delete
+        lDistance(a.substring(1), b) // insert
+      )
+    }
+    calculated.set(a + "," + b, res);
+    calculated.set(b + "," + a, res);
+    return res;
+  }
+
+  function normalize(s) {
+    while (s.length < 20) {
+      s += Math.floor(Math.random() * 10000);
+    }
+    return s;
+  }
+
   return (
     <View style={styles.container}>
         <View style={styles.inputContainer}>
@@ -15,12 +59,14 @@ export default function NavPage(props) {
               style={styles.inputText}
               onChangeText={setStartingPoint}
               value={startingPoint}
+              onEndEditing={e => setStartingPoint(autocomplete(e.nativeEvent.text))}
             />
             <Text style={styles.header}>To</Text>
             <TextInput
               style={styles.inputText}
               onChangeText={setDestination}
               value={destination}
+              onEndEditing={e => setDestination(autocomplete(e.nativeEvent.text))}
             />
           </View>
           <View style={styles.btnContainer}>
@@ -69,9 +115,7 @@ const styles = StyleSheet.create({
     top: 20,
     width: "90%",
     height: 230,
-    zIndex: 1,
-    borderColor: 'red',
-    borderWidth: 1
+    zIndex: 1
   },
   inputView: {
     backgroundColor: 'white',

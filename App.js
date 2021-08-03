@@ -5,47 +5,49 @@ import {useDeviceOrientation} from '@react-native-community/hooks';
 import SplashScreen from './Components/SplashScreen.js';
 import HomeScreen from './Components/HomeScreen.js';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import getLocationMap  from './my_modules/locations.js';
 
 export default function App() {
   console.log("App Executed");
-  console.log("Platform: ", Platform.OS);
-  console.log("Status Bar Height: ", getStatusBarHeight(true));
-
-  // subscribe to changes in device orientation
-  //  - rerenders component when device orientation changes
-  //  - represents device orientation value {"landscape":true/false, "portrait": true/false}
-  var orientation = useDeviceOrientation();
-  
   // create inSplash state and subscribe to inSplash state changes
   //  - rerenders component when inSplash orientation changes
   //  - inSplash represents whether the app is in the splash screen
   //  - MUST use setSplash to change value of inSplash
   var [inSplash, setSplash] = useState(true);
+  var [locationMap, setLocationMap] = useState({});
 
   // set timeout when component mounts
   //  - useEffect runs the given callback when component mounts, when it re-renders,
   //    and runs cleanup() when component dismounts
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setSplash(false)
-    }, 1000);
-
-    // cleanup() runs when component dismounts
-    return function cleanup() {
-      clearTimeout(timeout);
+    console.log(inSplash);
+    if (inSplash) {
+      fetchBuildings();
     }
   });
-  
+
   return (
     inSplash ? 
       <SplashScreen/> 
       :
       <View style={styles.safeContainer}>
-        <HomeScreen />
+        <HomeScreen locationMap={locationMap}/>
       </View>
 
   );
+
+  // fetch map of buildings<-->coordinates and re-render component with new locations when resolved
+  function fetchBuildings() {
+    fetch('https://hnavcontent.azurewebsites.net/PublishedNodes.txt')
+    .then(res => res.text())
+    .then(data => {
+      setLocationMap(getLocationMap(data));
+      setSplash(false);
+    });
+  }
 }
+
+
 
 const styles = StyleSheet.create({
   safeContainer: {
