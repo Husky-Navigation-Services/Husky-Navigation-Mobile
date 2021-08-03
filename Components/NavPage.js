@@ -2,52 +2,33 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Button, Image, TextInput, TouchableOpacity, TouchableHighlight } from 'react-native';
 import MapView from 'react-native-maps';
+import Autocomplete from 'react-native-autocomplete-input';
 
 export default function NavPage(props) {
-  var [startingPoint, setStartingPoint] = useState("Starting Point") ;
-  var [destination, setDestination] = useState("Destination") ;
-  var calculated = new Map();
+  var [startingPoint, setStartingPoint] = useState("") ;
+  var [destination, setDestination] = useState("") ;
+  var [similarStartingPoints, setSimilarStartingPoints] = useState([]) ;
+  var [similarDestinations, setSimilarDestinations] = useState([]) ;
 
-  // returns autocompleted location of given text
+  // returns array of similar inputs
   function autocomplete(input) {
-    const locations = Object.keys(props.locationMap);
-    let nearest = locations[0];
-    let nearestDistance = 100;
-    locations.forEach(loc => {
-      let curDistance = lDistance(normalize(loc), normalize(input));
-      if (curDistance < nearestDistance) {
-        nearest = loc;
-        nearestDistance = curDistance;
+    var res = [];
+    Object.keys(props.locationMap).forEach(loc => {
+      if (loc.startsWith(input)) {
+        res.push(loc);
       }
     });
-    return nearest;
-  }
-
-  // Levenshtein distance between two strings
-  function lDistance(a, b) {
-    let res;
-    if (calculated.has(a + "," + b)) {res = calculated.get(a + "," + b);}
-    else if (calculated.has(b + "," + a)) {res = calculated.get(b + "," + a);}
-    else if (b.length == 0) { res = a.length }
-    else if (a.length == 0) { res = b.length }
-    else if (a[0] == b[0]) {res = lDistance(a.substring(1), b.substring(1))}
-    else {
-      res = 1 + Math.min(
-        3 + lDistance(a.substring(1), b.substring(1)), // replace
-        lDistance(a, b.substring(1)), // delete
-        lDistance(a.substring(1), b) // insert
-      )
-    }
-    calculated.set(a + "," + b, res);
-    calculated.set(b + "," + a, res);
     return res;
   }
 
-  function normalize(s) {
-    while (s.length < 20) {
-      s += Math.floor(Math.random() * 10000);
-    }
-    return s;
+  function handleStartingPointChange(input) {
+    setSimilarStartingPoints(autocomplete(input));
+    setStartingPoint(input);
+  }
+
+  function handleDestinationChange(input) {
+    setSimilarDestinations(autocomplete(input));
+    setDestination(input);
   }
 
   return (
@@ -55,18 +36,26 @@ export default function NavPage(props) {
         <View style={styles.inputContainer}>
           <View style={[styles.inputView, styles.shadow]}>
             <Text style={styles.header}>From</Text>
-            <TextInput
+            <Autocomplete
               style={styles.inputText}
-              onChangeText={setStartingPoint}
+              data={similarStartingPoints}
               value={startingPoint}
-              onEndEditing={e => setStartingPoint(autocomplete(e.nativeEvent.text))}
+              onChangeText={handleStartingPointChange}
+              flatListProps={{
+                keyExtractor: (_, idx) => idx,
+                renderItem: ({ item }) => <Text>{item}</Text>,
+              }}
             />
             <Text style={styles.header}>To</Text>
-            <TextInput
+            <Autocomplete
               style={styles.inputText}
-              onChangeText={setDestination}
+              data={similarDestinations}
               value={destination}
-              onEndEditing={e => setDestination(autocomplete(e.nativeEvent.text))}
+              onChangeText={handleDestinationChange}
+              flatListProps={{
+                keyExtractor: (_, idx) => idx,
+                renderItem: ({ item }) => <Text>{item}</Text>,
+              }}
             />
           </View>
           <View style={styles.btnContainer}>
